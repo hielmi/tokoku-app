@@ -5,7 +5,7 @@ import { FormEvent, useState } from "react";
 
 const RegisterViews = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("second");
+  const [error, setError] = useState("");
 
   const { push } = useRouter();
 
