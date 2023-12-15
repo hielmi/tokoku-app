@@ -31,13 +31,36 @@
       }
     }
     &__button {
-      padding: 10px;
+      padding: 15px;
       background-color: #000;
       color: #fff;
       width: 100%;
       cursor: pointer;
       border: none;
       outline: none;
+    }
+    &__devider {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    &__other {
+      width: 100%;
+      &__button {
+        padding: 15px;
+        background-color: #000;
+        color: #fff;
+        width: 100%;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        i {
+          font-size: 24px;
+        }
+      }
     }
   }
   &__link {
