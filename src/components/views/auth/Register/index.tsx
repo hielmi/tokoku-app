@@ -24,16 +24,17 @@ const RegisterViews = () => {
       password: form.password.value,
     };
 
-    const result = await authServices.registerAccount(data);
-
-    if (result.status === 200) {
-      form.reset();
-      push("/auth/login");
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
-      setError("Email is already registered");
-    }
+    await authServices
+      .registerAccount(data)
+      .then((result) => {
+        form.reset();
+        push("/auth/login");
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setError("Email is already registered");
+      });
   };
 
   return (
