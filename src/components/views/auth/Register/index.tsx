@@ -23,18 +23,15 @@ const RegisterViews = () => {
       phone: form.phone.value,
       password: form.password.value,
     };
-
-    await authServices
-      .registerAccount(data)
-      .then((result) => {
-        form.reset();
-        push("/auth/login");
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        setError("Email is already registered");
-      });
+    try {
+      await authServices.registerAccount(data);
+      form.reset();
+      push("/auth/login");
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      setError("Email is already registered");
+    }
   };
 
   return (
