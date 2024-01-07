@@ -9,11 +9,13 @@ export default async function handler(
     await signUp(req.body, (status: boolean) => {
       if (status) {
         res.status(200).json({
+          statusCode: 200,
           status: true,
           message: "success",
         });
       } else {
         res.status(400).json({
+          statusCode: 400,
           status: false,
           message: "fail",
         });

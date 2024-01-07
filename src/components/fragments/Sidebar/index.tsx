@@ -14,7 +14,6 @@ type PropTypes = {
 const Sidebar = (props: PropTypes) => {
   const { lists } = props;
   const { pathname } = useRouter();
-  console.log(pathname);
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebar__top}>
@@ -42,7 +41,7 @@ const Sidebar = (props: PropTypes) => {
       <div className={styles.sidebar__bottom}>
         <Button
           type="button"
-          variant="secondary"
+          variant="danger"
           onClick={() => {
             signOut();
           }}

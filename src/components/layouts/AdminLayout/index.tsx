@@ -1,11 +1,12 @@
 import styles from "./AdminLayout.module.scss";
 import Sidebar from "@/components/fragments/Sidebar";
+import React from "react";
 
 type PropsTypes = {
   children: React.ReactNode;
 };
 
-const listSidebarItem = [
+const listSidebarItem: ({ icon: string; title: string; url: string })[] = [
   {
     title: "Dashboard",
     url: "/admin",
@@ -17,9 +18,9 @@ const listSidebarItem = [
     icon: "bx bxs-box",
   },
   {
-    title: "Profile",
-    url: "/admin/profile",
-    icon: "bx bxs-user",
+    title: "User",
+    url: "/admin/users",
+    icon: "bx bx-group",
   },
 ];
 
@@ -28,7 +29,7 @@ const AdminLayout = (props: PropsTypes) => {
   return (
     <div className={styles.admin}>
       <Sidebar lists={listSidebarItem} />
-      <div>{children}</div>
+      <div className={styles.admin__main}>{children}</div>
     </div>
   );
 };

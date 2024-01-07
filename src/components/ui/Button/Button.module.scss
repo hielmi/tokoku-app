@@ -1,6 +1,7 @@
 .button {
   padding: 15px 30px;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -17,4 +18,14 @@
 .secondary {
   background-color: #fff;
   color: #000;
+}
+
+.danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.danger:hover {
+  transition: 0.2s;
+  background-color: #b92836;
 }
