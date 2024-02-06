@@ -5,7 +5,7 @@ import Modal from "@/components/ui/Modal";
 import { useSession } from "next-auth/react";
 
 const ModalDeleteUser = (props: any) => {
-  const { deleteUser, setDeleteUser, setUserData } = props;
+  const { deleteUser, setDeleteUser, setUserData, setToaster } = props;
 
   const session: any = useSession();
   const handleDelete = async () => {
@@ -17,6 +17,15 @@ const ModalDeleteUser = (props: any) => {
       setDeleteUser({});
       const { data } = await userServices.getAllUsers();
       setUserData(data.data);
+      setToaster({
+        varian: "success",
+        message: "success deleted user",
+      });
+    } else {
+      setToaster({
+        varian: "danger",
+        message: "failed deleted role",
+      });
     }
   };
 

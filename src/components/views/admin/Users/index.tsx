@@ -3,18 +3,18 @@ import AdminLayout from "@/components/layouts/AdminLayout";
 import Button from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import ModalUpdateUser from "@/components/views/admin/Users/ModalUpdateUser";
-import userServices from "@/services/user";
 import ModalDeleteUser from "./ModalDeleteUser";
 
 type PropTypes = {
   users: any;
+  setToaster?: any;
 };
 
 const UsersAdminView = (props: PropTypes) => {
   const [UpdateUser, setUpdateUser] = useState<any>({});
   const [deletedUser, setDeletedUser] = useState<any>([]);
   const [userData, setUserData] = useState<any>([]);
-  const { users } = props;
+  const { users, setToaster } = props;
 
   useEffect(() => {
     setUserData(users);
@@ -69,6 +69,7 @@ const UsersAdminView = (props: PropTypes) => {
           modalUpdateUser={UpdateUser}
           setModalUpdateUser={setUpdateUser}
           setUserData={setUserData}
+          setToaster={setToaster}
         />
       )}
       {Object.keys(deletedUser).length > 0 && (
@@ -76,6 +77,7 @@ const UsersAdminView = (props: PropTypes) => {
           deleteUser={deletedUser}
           setDeleteUser={setDeletedUser}
           setUserData={setUserData}
+          setToaster={setToaster}
         />
       )}
     </>

@@ -6,7 +6,7 @@ type PropsTypes = {
   children: React.ReactNode;
 };
 
-const listSidebarItem: ({ icon: string; title: string; url: string })[] = [
+const listSidebarItem: { icon: string; title: string; url: string }[] = [
   {
     title: "Dashboard",
     url: "/admin",
@@ -28,7 +28,7 @@ const AdminLayout = (props: PropsTypes) => {
   const { children } = props;
   return (
     <div className={styles.admin}>
-      <Sidebar lists={listSidebarItem} />
+      <Sidebar lists={listSidebarItem} panel="Admin" />
       <div className={styles.admin__main}>{children}</div>
     </div>
   );
