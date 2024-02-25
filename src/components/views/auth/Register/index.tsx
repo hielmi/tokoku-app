@@ -1,21 +1,23 @@
 import styles from "./Register.module.scss";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import authServices from "@/services/auth";
 import AuthLayout from "@/components/layouts/AuthLayout";
 
-const RegisterViews = () => {
+type PropTypes = {
+  setToaster: Dispatch<SetStateAction<{}>>;
+};
+
+const RegisterViews = ({ setToaster }: PropTypes) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const { push } = useRouter();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
-    setError("");
     const form = event.target as HTMLFormElement;
     const data = {
       email: form.email.value,
@@ -28,9 +30,19 @@ const RegisterViews = () => {
       form.reset();
       push("/auth/login");
       setIsLoading(false);
-    } catch (error) {
+      setToaster({
+        variant: "success",
+        message: "Register success",
+      });
+    } catch (error: any) {
+      const resultFromApi = error.response
+        ? error.response.data
+        : "failed to register account";
       setIsLoading(false);
-      setError("Email is already registered");
+      setToaster({
+        variant: "danger",
+        message: resultFromApi?.message,
+      });
     }
   };
 
@@ -39,7 +51,6 @@ const RegisterViews = () => {
       title="Register"
       link="/auth/login"
       linkText="Have an account? Sign In"
-      error={error}
     >
       <form onSubmit={handleSubmit}>
         <Input label="Email" name="email" type="email" />

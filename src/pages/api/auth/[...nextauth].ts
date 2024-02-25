@@ -30,10 +30,10 @@ const authOption: NextAuthOptions = {
           if (passwordMatch) {
             return user;
           } else {
-            return null;
+            throw new Error("Password incorrect");
           }
         } else {
-          return null;
+          throw new Error("Email incorrect");
         }
       },
     }),
@@ -66,6 +66,7 @@ const authOption: NextAuthOptions = {
           token.role = data.role;
           token.id = data.id;
           token.image = data.image;
+          token.type = data.type;
         });
       }
       return token;
@@ -94,6 +95,9 @@ const authOption: NextAuthOptions = {
 
       if ("id" in token) {
         session.user.id = token.id;
+      }
+      if ("type" in token) {
+        session.user.type = token.type;
       }
 
       const accessToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || "", {

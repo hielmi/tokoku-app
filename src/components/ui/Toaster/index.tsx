@@ -35,7 +35,7 @@ const Toaster = (props: PropTypes) => {
 
   const timerStart = () => {
     timeRef.current = setInterval(() => {
-      setLengthBar((prev) => prev - 0.13);
+      setLengthBar((prev) => prev - 0.18);
     }, 1);
   };
 

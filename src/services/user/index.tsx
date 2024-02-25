@@ -27,9 +27,9 @@ const userServices = {
       },
     }),
 
-  updateProfile: (id: string, data: any, token: string) =>
+  updateProfile: (data: any, token: string) =>
     instance.put(
-      `/api/user/profile/${id}`,
+      `/api/user/profile`,
       { data },
       {
         headers: {

@@ -17,7 +17,7 @@ export async function signUp(
   const data = await retriveDataByField("users", "email", userData.email);
 
   if (data.length > 0) {
-    callback(false);
+    callback({ status: false, message: "Email is already registered" });
   } else {
     if (!userData.role) {
       userData.role = "member";
@@ -29,9 +29,13 @@ export async function signUp(
     userData.password = await bcrypt.hash(userData.password, 10);
     userData.created_at = new Date();
     userData.updated_at = new Date();
-    await addData("users", userData, (result: boolean) => {
-      callback(result);
-    });
+    try {
+      await addData("users", userData, (result: boolean) => {
+        callback({ status: result, message: "Register success" });
+      });
+    } catch (error) {
+      callback({ status: false, message: "Register Failed" });
+    }
   }
 }
 

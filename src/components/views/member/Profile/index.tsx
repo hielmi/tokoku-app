@@ -4,19 +4,33 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Image from "next/image";
 import { uploadFile } from "@/lib/firebase/service";
-import { useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import userServices from "@/services/user";
+import { User } from "@/type/user.type";
+
+type PropTypes = {
+  profile: User | any;
+  setProfile: Dispatch<SetStateAction<{}>>;
+  setToaster: Dispatch<SetStateAction<{}>>;
+  session: any;
+};
+
+interface UploadResult {
+  status: "success";
+  message: string;
+  url: string;
+}
 
 const ProfileMemberViews = ({
   profile,
   setProfile,
   session,
   setToaster,
-}: any) => {
+}: PropTypes) => {
   const [changeImage, setChangeImage] = useState<any>(undefined);
   const [isLoading, setIsLoading] = useState("");
 
-  const handleChangeProfile = async (e: any) => {
+  const handleChangeProfile = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading("profile");
     const form = e.target as HTMLFormElement;
@@ -24,13 +38,8 @@ const ProfileMemberViews = ({
       fullname: form.fullname.value,
       phone: form.phone.value,
     };
-
-    const result = await userServices.updateProfile(
-      profile.id,
-      data,
-      session.data?.accessToken
-    );
-    if (result.status === 200) {
+    try {
+      await userServices.updateProfile(data, session.data?.accessToken);
       setIsLoading("");
       setProfile({
         ...profile,
@@ -42,7 +51,7 @@ const ProfileMemberViews = ({
         variant: "success",
         message: "update profile success",
       });
-    } else {
+    } catch (error) {
       setIsLoading("");
       setToaster({
         variant: "danger",
@@ -51,59 +60,59 @@ const ProfileMemberViews = ({
     }
   };
 
-  const handleChangeProfilePicture = (event: any) => {
-    event.preventDefault();
-    const file = event.target[0]?.files[0];
+  const handleChangeProfilePicture = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const file = form.image.files[0];
     if (file) {
       setIsLoading("picture");
       uploadFile(
         profile.id,
         file,
-        async (status: boolean, newImageURL: string) => {
+        async (status: boolean, result: UploadResult) => {
           if (status) {
             const data = {
-              image: newImageURL,
+              image: result.url,
             };
             try {
-              const result = await userServices.updateProfile(
-                profile.id,
-                data,
-                session.data?.accessToken
-              );
+              await userServices.updateProfile(data, session.data?.accessToken);
               setIsLoading("");
               setProfile({
                 ...profile,
-                image: newImageURL,
+                image: result.url,
               });
               setChangeImage(undefined);
-              event.target[0].value = "";
+              form.reset();
               setToaster({
-                variant: "success",
-                message: "success change Profile Picture",
+                variant: result.status,
+                message: result.message,
               });
-            } catch (error) {
+            } catch (error: any) {
+              const resultFromApi = error.response
+                ? error.response.data
+                : "failed to change Picture";
               setIsLoading("");
               setChangeImage(undefined);
-              event.target[0].value = "";
+              form.reset();
               setToaster({
-                variant: "danger",
-                message: "Failed change Profile Picture",
+                variant: "error",
+                message: resultFromApi,
               });
             }
           } else {
             setToaster({
-              variant: "danger",
-              message: "Failed change Profile Picture",
+              variant: result.status,
+              message: result.message,
             });
             setChangeImage(undefined);
             setIsLoading("");
-            event.target[0].value = "";
+            form.reset();
           }
         }
       );
     }
   };
-  const handleChangePassword = async (e: any) => {
+  const handleChangePassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading("password");
     const form = e.target as HTMLFormElement;
@@ -113,12 +122,9 @@ const ProfileMemberViews = ({
       oldPassword: form.oldPassword.value,
       encryptedPassword: profile.password,
     };
+    console.log(data.encryptedPassword);
     try {
-      const result = await userServices.updateProfile(
-        profile.id,
-        data,
-        session.data?.accessToken
-      );
+      await userServices.updateProfile(data, session.data?.accessToken);
       setIsLoading("");
       form.reset();
       setToaster({
@@ -126,7 +132,7 @@ const ProfileMemberViews = ({
         message: "success update password",
       });
     } catch (error: any) {
-      const resultFromApi = error?.response
+      const resultFromApi = error.response
         ? error.response.data
         : "failed to change Password";
       setIsLoading("");
@@ -137,6 +143,7 @@ const ProfileMemberViews = ({
       });
     }
   };
+
   return (
     <MemberLayout>
       <h1 className={styles.profile__title}>Profile</h1>
@@ -191,6 +198,7 @@ const ProfileMemberViews = ({
               <Button
                 className={styles.profile__main__row__avatar__button}
                 type="submit"
+                isDisabled={isLoading ? true : false}
               >
                 {isLoading === "picture" ? "Loading..." : "Update Picture"}
               </Button>
@@ -227,13 +235,7 @@ const ProfileMemberViews = ({
                 type="email"
                 disabled={true}
               />
-              {/* <Input
-              name="password"
-              label="Password"
-              defaultValue={profile.password}
-              type="password"
-            /> */}
-              <Button type="submit">
+              <Button type="submit" isDisabled={isLoading ? true : false}>
                 {isLoading === "profile" ? "Loading..." : "Update Profile"}
               </Button>
             </form>
@@ -245,7 +247,12 @@ const ProfileMemberViews = ({
             <form onSubmit={handleChangePassword}>
               <Input name="oldPassword" label="Old Password" type="password" />
               <Input name="newPassword" label="New Password" type="password" />
-              <Button type="submit">
+              <Button
+                type="submit"
+                isDisabled={
+                  Object.hasOwn(profile, "type") || isLoading ? true : false
+                }
+              >
                 {isLoading === "password" ? "Loading..." : "Change Password"}
               </Button>
             </form>

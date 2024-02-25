@@ -4,17 +4,21 @@ import Button from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import ModalUpdateUser from "@/components/views/admin/Users/ModalUpdateUser";
 import ModalDeleteUser from "./ModalDeleteUser";
+import { User } from "@/type/user.type";
+import { useSession } from "next-auth/react";
 
 type PropTypes = {
-  users: any;
+  users: User[];
   setToaster?: any;
 };
 
 const UsersAdminView = (props: PropTypes) => {
-  const [UpdateUser, setUpdateUser] = useState<any>({});
-  const [deletedUser, setDeletedUser] = useState<any>([]);
-  const [userData, setUserData] = useState<any>([]);
+  const [UpdateUser, setUpdateUser] = useState<User | {}>({});
+  const [deletedUser, setDeletedUser] = useState<User | {}>([]);
+  const [userData, setUserData] = useState<User[]>([]);
   const { users, setToaster } = props;
+
+  const session: any = useSession();
 
   useEffect(() => {
     setUserData(users);
@@ -66,18 +70,20 @@ const UsersAdminView = (props: PropTypes) => {
       </AdminLayout>
       {Object.keys(UpdateUser).length > 0 && (
         <ModalUpdateUser
-          modalUpdateUser={UpdateUser}
-          setModalUpdateUser={setUpdateUser}
+          updatedUser={UpdateUser}
+          setUpdatedUser={setUpdateUser}
           setUserData={setUserData}
           setToaster={setToaster}
+          session={session}
         />
       )}
       {Object.keys(deletedUser).length > 0 && (
         <ModalDeleteUser
-          deleteUser={deletedUser}
-          setDeleteUser={setDeletedUser}
+          deletedUser={deletedUser}
+          setDeletedUser={setDeletedUser}
           setUserData={setUserData}
           setToaster={setToaster}
+          session={session}
         />
       )}
     </>

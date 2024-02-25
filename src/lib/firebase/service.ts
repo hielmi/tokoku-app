@@ -125,12 +125,20 @@ export async function uploadFile(
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: any) => {
-            callback(true, downloadURL);
+            callback(true, {
+              status: "success",
+              message: "success change Profile Picture",
+              url: downloadURL,
+            });
           });
         }
       );
     } else {
-      return callback(false);
+      return callback(false, {
+        status: "warning",
+        message: "Size file is too large",
+        url: "",
+      });
     }
   }
   return true;
