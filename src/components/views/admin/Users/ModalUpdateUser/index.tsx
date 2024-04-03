@@ -4,7 +4,6 @@ import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import userServices from "@/services/user";
-import { useSession } from "next-auth/react";
 import { User } from "@/type/user.type";
 
 type PropTypes = {

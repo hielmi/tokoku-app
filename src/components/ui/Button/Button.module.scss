@@ -24,6 +24,16 @@
   color: #000;
 }
 
+.warning {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.warning:hover {
+  transition: 0.2s;
+  background-color: #e0a800;
+}
+
 .danger {
   background-color: #dc3545;
   color: #fff;

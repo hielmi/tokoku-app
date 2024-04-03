@@ -28,7 +28,7 @@ const UsersAdminView = (props: PropTypes) => {
     <>
       <AdminLayout>
         <div className={styles.users}>
-          <h1>User Management</h1>
+          <h1 className={styles.users__title}>User Management</h1>
           <table className={styles.users__table}>
             <thead>
               <tr>
