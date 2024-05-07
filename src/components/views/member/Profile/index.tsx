@@ -64,11 +64,15 @@ const ProfileMemberViews = ({
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const file = form.image.files[0];
+    const newName = "profile_" + file.name.split(".")[1];
+
     if (file) {
       setIsLoading("picture");
       uploadFile(
         profile.id,
         file,
+        newName,
+        "users",
         async (status: boolean, result: UploadResult) => {
           if (status) {
             const data = {

@@ -5,6 +5,10 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Products } from "@/type/product.type";
 import { convertIDR } from "@/utils/currency";
+import ModalAddProduct from "./ModalAddProduct";
+import ModalUpdateProduct from "./ModalUpdateProduct";
+import ModalDeleteProduct from "./ModalDeleteProduct";
+import Input from "@/components/ui/Input";
 
 type PropTypes = {
   products: Products[];
@@ -12,18 +16,45 @@ type PropTypes = {
 };
 
 const ProductAdminViews = (props: PropTypes) => {
-  const [dataProduct, setDataProduct] = useState<Products[]>([]);
   const { products, setToaster } = props;
+  const [dataProducts, setDataProducts] = useState<Products[]>([]);
+  const [modalAddProduct, setModalAddProduct] = useState(false);
+  const [productUpdate, setProductUpdate] = useState<Products | {}>({});
+  const [modalDeleteProduct, setModalDeleteProduct] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Products | {}>({});
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    setDataProduct(products);
-  }, [products]);
+    const filteredProducts = products.filter((product) =>
+      product.name.toLowerCase().includes(search.toLowerCase())
+    );
+    setDataProducts(filteredProducts);
+  }, [search, products]);
 
   return (
     <>
       <AdminLayout>
         <div className={styles.product}>
           <h1 className={styles.product__title}>Product Management</h1>
+          <div className={styles.product__toolbar}>
+            <Button
+              variant="primary"
+              type="button"
+              className={styles.product__toolbar__addproduct}
+              onClick={() => setModalAddProduct(true)}
+            >
+              <i className="bx bx-plus" />
+              Add Product
+            </Button>
+            <div className={styles.product__toolbar__search}>
+              <Input
+                type="text"
+                placeholder="Search"
+                name="search"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+          </div>
           <table className={styles.product__table}>
             <thead>
               <tr>
@@ -41,7 +72,7 @@ const ProductAdminViews = (props: PropTypes) => {
               </tr>
             </thead>
             <tbody>
-              {dataProduct.map((product, index) => (
+              {dataProducts.map((product, index) => (
                 <>
                   <tr key={product.id}>
                     <td rowSpan={product.stock.length}>{index + 1}</td>
@@ -62,10 +93,21 @@ const ProductAdminViews = (props: PropTypes) => {
                     <td>{product.stock[0].qty}</td>
                     <td rowSpan={product.stock.length}>
                       <div className={styles.product__table__action}>
-                        <Button type="button" variant="warning">
+                        <Button
+                          type="button"
+                          variant="warning"
+                          onClick={() => setProductUpdate(product)}
+                        >
                           <i className="bx bxs-edit" />
                         </Button>
-                        <Button type="button" variant="danger">
+                        <Button
+                          type="button"
+                          variant="danger"
+                          onClick={() => {
+                            setModalDeleteProduct(true);
+                            setSelectedProduct(product);
+                          }}
+                        >
                           <i className="bx bxs-trash" />
                         </Button>
                       </div>
@@ -87,6 +129,31 @@ const ProductAdminViews = (props: PropTypes) => {
           </table>
         </div>
       </AdminLayout>
+
+      {modalAddProduct && (
+        <ModalAddProduct
+          setModalAddProduct={setModalAddProduct}
+          setToaster={setToaster}
+          setDataProducts={setDataProducts}
+        />
+      )}
+      {Object.keys(productUpdate).length > 0 && (
+        <ModalUpdateProduct
+          setToaster={setToaster}
+          setDataProducts={setDataProducts}
+          productUpdate={productUpdate}
+          setProductUpdate={setProductUpdate}
+        />
+      )}
+      {modalDeleteProduct && (
+        <ModalDeleteProduct
+          setModalDeleteProduct={setModalDeleteProduct}
+          selectedProduct={selectedProduct}
+          setDataProducts={setDataProducts}
+          setToaster={setToaster}
+          setSelectedProduct={setSelectedProduct}
+        />
+      )}
     </>
   );
 };

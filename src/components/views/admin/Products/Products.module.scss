@@ -1,16 +1,37 @@
 .product {
-  padding: 10px;
-
   &__title {
     font-size: 24px;
     text-transform: uppercase;
+  }
+
+  &__toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__addproduct {
+      font-size: 15px;
+      gap: 5px;
+      i {
+        font-size: 24px;
+      }
+    }
+
+    &__search {
+      input {
+        margin-right: 10px;
+        margin-top: 0 !important;
+        width: 300px;
+      }
+    }
   }
 
   &__table {
     width: 100%;
     border: 1px solid #ddd;
     border-radius: 10px;
-    margin-top: 25px;
+    margin-top: 10px;
+    overflow: auto;
 
     th,
     td {
@@ -28,6 +49,16 @@
       display: flex;
       justify-content: center;
       gap: 10px;
+    }
+  }
+
+  &__button {
+    margin-top: 20px;
+    display: flex;
+    gap: 5px;
+    padding: 15px;
+    i {
+      font-size: 24px;
     }
   }
 }

@@ -28,7 +28,7 @@ const AdminLayout = (props: PropsTypes) => {
   const { children } = props;
   return (
     <div className={styles.admin}>
-      <Sidebar lists={listSidebarItem} panel="Admin" />
+      <Sidebar lists={listSidebarItem} panel="Admin Panel" />
       <div className={styles.admin__main}>{children}</div>
     </div>
   );

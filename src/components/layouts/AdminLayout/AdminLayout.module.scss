@@ -1,7 +1,18 @@
 .admin {
   display: flex;
+  height: 100vh;
+
   &__main {
     width: 100%;
-    padding: 10px;
+    height: 100vh;
+    overflow: auto;
+    box-sizing: border-box;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: 0;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    padding: 20px 10px 10px 10px;
   }
 }

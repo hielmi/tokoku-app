@@ -7,7 +7,7 @@ export type Products = {
   stock: [
     {
       qty: number;
-      size: number;
+      size: string;
     }
   ];
   price: string;

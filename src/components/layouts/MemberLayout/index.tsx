@@ -28,7 +28,7 @@ const MemberLayout = (props: PropsTypes) => {
   const { children } = props;
   return (
     <div className={styles.member}>
-      <Sidebar lists={listSidebarItem} panel="Member" />
+      <Sidebar lists={listSidebarItem} panel="Member Panel" />
       <div className={styles.member__main}>{children}</div>
     </div>
   );

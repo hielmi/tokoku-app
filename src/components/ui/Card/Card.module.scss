@@ -1,0 +1,25 @@
+.card {
+  flex: 0 0 30%;
+  padding: 10px;
+  box-sizing: border-box;
+  max-width: 512px;
+  img {
+    max-width: 100%;
+    height: auto;
+    width: 500px;
+  }
+
+  &__info {
+    &__title {
+      font-size: 24px;
+      color: #000;
+      font-size: 2vw;
+      font-size: calc(100% + 0.5vw);
+    }
+    &__price {
+      font-size: 20px;
+      color: #000;
+      font-size: calc(100% + 0.3vw);
+    }
+  }
+}

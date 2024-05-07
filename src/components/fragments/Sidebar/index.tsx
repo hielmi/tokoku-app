@@ -18,7 +18,7 @@ const Sidebar = (props: PropTypes) => {
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebar__top}>
-        <h1 className={styles.sidebar__top__title}>{panel} Panel</h1>
+        <h1 className={styles.sidebar__top__title}>{panel}</h1>
         <div className={styles.sidebar__top__lists}>
           {lists.map((list, index) => (
             <Link

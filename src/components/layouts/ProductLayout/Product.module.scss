@@ -1,0 +1,61 @@
+.product {
+  display: flex;
+  max-width: 1920px;
+  margin: auto;
+  &__main {
+    width: 100%;
+    padding: 10px;
+  }
+
+  &__sidebar {
+    color: #000;
+    padding: 20px;
+    width: 20%;
+    height: 100vh;
+    &__title {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    &__menu {
+      &__gender {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        &__item {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+        }
+        &__checkbox {
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          width: 20px;
+          height: 20px;
+          border: 2px solid #333;
+          border-radius: 4px;
+          outline: none;
+          cursor: pointer;
+          margin-right: 5px;
+        }
+
+        &__checkbox:checked {
+          background-color: #333;
+        }
+        &__label {
+          cursor: pointer;
+          margin-right: 10px;
+        }
+      }
+    }
+
+    &__hr {
+      margin-top: 20px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+    }
+  }
+}

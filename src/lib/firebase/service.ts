@@ -16,6 +16,8 @@ import {
   getStorage,
   ref,
   uploadBytesResumable,
+  deleteObject,
+  listAll,
 } from "firebase/storage";
 
 const firestore = getFirestore(app);
@@ -105,14 +107,15 @@ export async function deleteData(
 }
 
 export async function uploadFile(
-  userId: string,
+  id: string,
   file: any,
+  newName: string,
+  collection: string,
   callback: Function
 ) {
   if (file) {
     if (file.size < 1048576) {
-      const newName = "profile_" + userId + "." + file.name.split(".")[1];
-      const storageRef = ref(storage, `images/users/${userId}/${newName}`);
+      const storageRef = ref(storage, `images/${collection}/${id}/${newName}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
         "state_changed",
@@ -142,4 +145,26 @@ export async function uploadFile(
     }
   }
   return true;
+}
+
+export async function deleteFile(url: string, callback: Function) {
+  const storageRef = ref(storage, url);
+
+  const path = url.split("/").slice(0, -1).join("/");
+
+  const listRef = ref(storage, path);
+
+  const result = await listAll(listRef);
+
+  if (result.items.length === 0) {
+    return callback(true);
+  } else {
+    await deleteObject(storageRef)
+      .then(() => {
+        return callback(true);
+      })
+      .catch(() => {
+        return callback(false);
+      });
+  }
 }
