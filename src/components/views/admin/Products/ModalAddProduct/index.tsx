@@ -150,18 +150,26 @@ const ModalAddProduct = (props: PropTypes) => {
         />
         <label htmlFor="image">Upload product image</label>
         <div className={styles.form__upload}>
-          <Image
-            src={uploadedImage ? URL.createObjectURL(uploadedImage) : ""}
-            width={100}
-            height={100}
-            alt="product-image"
-            className={styles.form__upload__image}
-            objectFit="contain"
-          />
+          {uploadedImage ? (
+            <Image
+              src={uploadedImage ? URL.createObjectURL(uploadedImage) : ""}
+              width={100}
+              height={100}
+              alt="product-image"
+              className={styles.form__upload__image}
+              objectFit="contain"
+            />
+          ) : (
+            <div className={styles.form__upload__placeholder}>
+              <p>No Image</p>
+            </div>
+          )}
+
           <InputFile
             name={"image"}
             setUploadedImage={setUploadedImage}
             uploadedImage={uploadedImage}
+            className={styles.form__upload__input}
           />
         </div>
         <label htmlFor="stock">Stock</label>

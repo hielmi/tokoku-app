@@ -20,7 +20,7 @@ export default async function handler(
               statusCode: 200,
               status: true,
               message: "success",
-              data: user.carts,
+              data: user.carts || [],
             });
           } else {
             res.status(404).json({
@@ -54,13 +54,13 @@ export default async function handler(
               res.status(200).json({
                 status: true,
                 statusCode: 200,
-                message: "success",
+                message: "success updated cart",
               });
             } else {
               res.status(400).json({
                 status: false,
                 statusCode: 400,
-                message: "failed",
+                message: "failed updated cart",
               });
             }
           });

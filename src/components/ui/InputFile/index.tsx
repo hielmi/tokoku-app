@@ -5,11 +5,12 @@ type PropTypes = {
   uploadedImage: File | null;
   name: string;
   setUploadedImage: Dispatch<SetStateAction<File | null>>;
+  className?: string;
 };
 const InputFile = (props: PropTypes) => {
-  const { uploadedImage, name, setUploadedImage } = props;
+  const { uploadedImage, name, setUploadedImage, className } = props;
   return (
-    <div className={styles.file}>
+    <div className={`${styles.file} ${className}`}>
       <label className={styles.file__label} htmlFor={name}>
         {uploadedImage?.name ? (
           <p>{uploadedImage?.name}</p>

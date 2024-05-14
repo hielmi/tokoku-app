@@ -1,0 +1,78 @@
+.summary_cart {
+  &__title {
+    margin-bottom: 16px;
+  }
+  &__subtotal {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+
+    &__title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    &__value {
+      text-align: end;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  &__delivery {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+
+    &__title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    &__value {
+      text-align: end;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  &__taxes {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    margin-bottom: 24px;
+
+    &__title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    &__value {
+      text-align: end;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+
+    &__title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    &__value {
+      text-align: end;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    &__hr {
+      height: 1px;
+      background-color: #e5e5e5;
+    }
+  }
+}

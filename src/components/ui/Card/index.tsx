@@ -21,6 +21,7 @@ const Card = (prop: PropTypes) => {
       </div>
       <div className={styles.card__info}>
         <h1 className={styles.card__info__title}>{product.name}</h1>
+        <p className={styles.card__info__category}>{product.category}</p>
         <p className={styles.card__info__price}>{convertIDR(product.price)}</p>
       </div>
     </div>

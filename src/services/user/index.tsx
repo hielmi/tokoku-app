@@ -44,6 +44,7 @@ const userServices = {
         Authorization: `Bearer ${token}`,
       },
     }),
+
   addToCart: (data: any, token: string) =>
     instance.put(
       `/api/user/cart`,

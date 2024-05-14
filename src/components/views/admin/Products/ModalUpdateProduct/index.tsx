@@ -182,6 +182,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
             name={"image"}
             setUploadedImage={setUploadedImage}
             uploadedImage={uploadedImage}
+            className={styles.form__upload__input}
           />
         </div>
         <label htmlFor="stock">Stock</label>

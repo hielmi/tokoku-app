@@ -35,10 +35,27 @@
   }
   &__upload {
     display: flex;
-    align-items: center;
     gap: 1rem;
     &__image {
       width: 100px;
+      margin: 20px 0;
+    }
+    &__placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #eee;
+      border-radius: 8px;
+      width: 100px;
+      margin: 20px 0;
+      p {
+        text-align: center;
+        font-size: 12px;
+      }
+    }
+
+    &__input {
+      width: 100%;
     }
   }
 }

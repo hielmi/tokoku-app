@@ -3,15 +3,18 @@ import userServices from "@/services/user";
 import { User } from "@/type/user.type";
 import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Product } from "@/type/product.type";
 
 type PropTypes = {
   setToaster: Dispatch<SetStateAction<{}>>;
+  product?: Product[];
+  session: any;
+  chart?: any;
 };
 
-const MemberProfilePage = ({ setToaster }: PropTypes) => {
+const MemberProfilePage = (props: PropTypes) => {
+  const { setToaster, session } = props;
   const [profile, setProfile] = useState<User | {}>({});
-
-  const session: any = useSession();
 
   useEffect(() => {
     if (session.data?.accessToken && Object.keys(profile).length === 0) {

@@ -1,0 +1,124 @@
+.item {
+  padding: 24px 0;
+  display: flex;
+  gap: 24px;
+
+  &__image {
+    aspect-ratio: 1/1;
+    height: 160px;
+    width: 160px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+    overflow: visible;
+    &__desc {
+      display: flex;
+      justify-content: space-between;
+      overflow: hidden;
+      width: 100%;
+      &__detail {
+        display: flex;
+        flex-direction: column;
+        min-width: 0px;
+        gap: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        &__name {
+          font-size: 18px;
+          font-weight: bold;
+        }
+        &__category {
+          font-size: 18px;
+          color: #707072;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        &__size {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          &__select {
+            display: inline !important;
+            margin: 0 !important;
+
+            select {
+              padding: 2px !important;
+              margin-left: 5px;
+              margin-top: 0px;
+              background-color: transparent;
+            }
+          }
+        }
+      }
+      &__price {
+        margin-left: -18px;
+        text-align: end;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+
+    &__action {
+      display: flex;
+      gap: 20px;
+      &__fav,
+      &__delete {
+        cursor: pointer;
+        border: none !important;
+        padding: 0;
+      }
+
+      i {
+        font-size: 30px;
+        font-weight: 100 !important;
+      }
+    }
+  }
+}
+.hr {
+  height: 1px;
+  background-color: #e5e5e5;
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .item {
+    display: flex;
+    gap: 20px;
+    &__image {
+      height: 154px;
+      width: 154px;
+    }
+
+    &__content {
+      &__desc {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 5px;
+        &__detail {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+
+          &__size {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+            margin-bottom: 10px;
+          }
+        }
+        &__price {
+          margin-left: 0;
+          text-align: start;
+        }
+      }
+    }
+  }
+}
