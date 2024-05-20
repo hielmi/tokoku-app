@@ -3,58 +3,22 @@ import { updateProfile } from "firebase/auth";
 
 const userServices = {
   getAllUsers: () => instance.get("/api/user"),
-  updateUser: (id: string, data: any, token: string) =>
-    instance.put(
-      `/api/user/${id}`,
-      { data },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
-  deleteUser: (id: string, token: string) =>
-    instance.delete(`/api/user/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
+  updateUser: (id: string, data: any) =>
+    instance.put(`/api/user/${id}`, { data }),
 
-  getProfile: (token: string) =>
-    instance.get("/api/user/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
+  deleteUser: (id: string) => instance.delete(`/api/user/${id}`),
 
-  updateProfile: (data: any, token: string) =>
-    instance.put(
-      `/api/user/profile`,
-      { data },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
+  getProfile: () => instance.get("/api/user/profile"),
 
-  getCarts: (token: string) =>
-    instance.get("/api/user/cart", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
+  updateProfile: (data: any) => instance.put(`/api/user/profile`, { data }),
 
-  addToCart: (data: any, token: string) =>
-    instance.put(
-      `/api/user/cart`,
-      { data },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
+  getCarts: () => instance.get("/api/user/cart"),
+
+  addToCart: (data: any) => instance.put(`/api/user/cart`, { data }),
+
+  getFavProduct: () => instance.get("/api/user/fav"),
+
+  addFav: (data: any) => instance.put(`/api/user/fav`, { data }),
 };
 
 export default userServices;

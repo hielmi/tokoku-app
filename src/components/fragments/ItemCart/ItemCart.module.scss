@@ -3,6 +3,11 @@
   display: flex;
   gap: 24px;
 
+  &--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
   &__image {
     aspect-ratio: 1/1;
     height: 160px;
@@ -85,6 +90,11 @@
   height: 1px;
   background-color: #e5e5e5;
   width: 100%;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 @media screen and (max-width: 768px) {

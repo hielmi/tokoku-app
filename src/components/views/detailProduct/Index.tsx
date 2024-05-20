@@ -4,13 +4,14 @@ import { Products } from "@/type/product.type";
 import { convertIDR } from "@/utils/currency";
 import Button from "@/components/ui/Button";
 import { useSession } from "next-auth/react";
-import { Router, useRouter } from "next/router";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useRouter } from "next/router";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import userServices from "@/services/user";
 
 type PropTypes = {
   product: Products;
   carts: any;
+  fav: any;
   productId: string;
   setToaster: Dispatch<
     SetStateAction<{
@@ -21,11 +22,17 @@ type PropTypes = {
 };
 
 const DetailProductView = (props: PropTypes) => {
-  const [selectedSize, setSelectedSize] = useState("");
+  const { product, carts, productId, setToaster, fav } = props;
 
-  const { product, carts, productId, setToaster } = props;
+  const [selectedSize, setSelectedSize] = useState("");
+  const [isFav, setisFav] = useState(false);
+
   const { status, data }: any = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if (fav.includes(productId)) setisFav(true);
+  }, [fav, productId]);
 
   const handleAddToCart = async () => {
     if (status === "authenticated") {
@@ -52,10 +59,7 @@ const DetailProductView = (props: PropTypes) => {
         }
 
         try {
-          const result = await userServices.addToCart(
-            { carts: updatedCarts },
-            data?.accessToken
-          );
+          const result = await userServices.addToCart({ carts: updatedCarts });
 
           if (result.status === 200) {
             setSelectedSize("");
@@ -79,6 +83,43 @@ const DetailProductView = (props: PropTypes) => {
       router.push(`/auth/login?callbackUrl=${router.asPath}`);
     }
   };
+
+  const handleFav = async () => {
+    if (status === "authenticated") {
+      try {
+        if (fav.includes(productId)) {
+          setisFav(false);
+          const updatedFav = fav.filter((item: any) => item !== productId);
+          const result = await userServices.addFav(updatedFav);
+          if (result.status === 200) {
+            setisFav(true);
+          } else {
+            setToaster({
+              varian: "error",
+              message: "Failed add to fav",
+            });
+          }
+        } else {
+          const result = await userServices.addFav({
+            favorite: [...fav, productId],
+          });
+          if (result.status === 200) {
+            setisFav(true);
+          } else {
+            setToaster({
+              varian: "error",
+              message: "Failed add to fav",
+            });
+          }
+        }
+      } catch (error) {
+        console.log("somtehing error in fav");
+      }
+    } else {
+      router.push(`/auth/login?callbackUrl=${router.asPath}`);
+    }
+  };
+
   return (
     <div className={styles.detail}>
       <div className={styles.detail__main}>
@@ -129,12 +170,29 @@ const DetailProductView = (props: PropTypes) => {
             )}
           </div>
           <Button
-            className={styles.detail__main__right__button}
+            className={styles.detail__main__right__add}
             type="submit"
             onClick={handleAddToCart}
           >
             Add To Cart
           </Button>
+          <Button
+            className={styles.detail__main__right__fav}
+            type="submit"
+            onClick={handleFav}
+            variant="secondary"
+          >
+            <span>Favorite</span>
+            {isFav ? (
+              <i className="bx bxs-heart"></i>
+            ) : (
+              <i className="bx bx-heart"></i>
+            )}
+          </Button>
+
+          <div className={styles.detail__main__right__desc}>
+            <p className={styles.detail__main__right__desc}>{product?.desc}</p>
+          </div>
         </div>
       </div>
     </div>

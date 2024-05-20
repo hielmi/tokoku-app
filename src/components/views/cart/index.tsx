@@ -17,11 +17,12 @@ type PropTypes = {
       }
     | any;
   session: any;
+  favProduct: any;
   setCart: Dispatch<SetStateAction<{}[]>>;
 };
 
 const CartViewPage = (props: PropTypes) => {
-  const { setToaster, cart, session, products, setCart } = props;
+  const { setToaster, cart, products, setCart, favProduct } = props;
   const [subTotalPrice, setSubTotalPrice] = useState<number>(0);
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const [totalPrice, setTotalPrice] = useState<number>(0);
@@ -49,10 +50,7 @@ const CartViewPage = (props: PropTypes) => {
 
   const updateCart = async (updatedCarts: any[]) => {
     try {
-      const { data } = await userServices.addToCart(
-        { carts: updatedCarts },
-        session.data?.accessToken
-      );
+      const { data } = await userServices.addToCart({ carts: updatedCarts });
 
       if (data.statusCode !== 200) {
         setToaster({
@@ -80,10 +78,16 @@ const CartViewPage = (props: PropTypes) => {
     await updateCart(updatedCarts);
   };
 
-  const handleChangeQuantity = async (e: any, id: string) => {
+  const handleChangeQuantity = async (
+    e: any,
+    id: string,
+    defaultValue: number
+  ) => {
     const value = parseInt(e.target.value);
     const updatedCarts = cart.map((item: any) =>
-      item.productId === id ? { ...item, qty: value } : item
+      item.productId === id && item.qty === defaultValue
+        ? { ...item, qty: value }
+        : item
     );
 
     await updateCart(updatedCarts);
@@ -93,6 +97,13 @@ const CartViewPage = (props: PropTypes) => {
     const updatedCarts = cart.filter((item: any) => item.productId !== id);
 
     await updateCart(updatedCarts);
+  };
+
+  const handleFav = async (id: string) => {
+    const updatedFavProduct = favProduct.includes(id)
+      ? favProduct.filter((item: any) => item !== id)
+      : [...favProduct, id];
+    await userServices.addFav({ favorite: updatedFavProduct });
   };
 
   return (
@@ -125,23 +136,28 @@ const CartViewPage = (props: PropTypes) => {
             {products.length > 0 &&
               cart.length > 0 &&
               products.map((product: any) => {
-                const productInCart = cart.find(
+                const productsInCart = cart.filter(
                   (item: any) => item.productId === product.id
                 );
-                if (productInCart) {
-                  return (
+
+                return (
+                  productsInCart.length > 0 &&
+                  productsInCart.map((productInCart: any) => (
                     <ItemCart
-                      key={product.id}
+                      key={`${product.id}-${productInCart.size}`}
                       product={product}
                       cart={productInCart}
                       totalPriceItem={product.price * productInCart.qty}
                       onChangeQuantity={handleChangeQuantity}
                       onChangeSize={handleChangeSize}
-                      onAddFav={(e) => {}}
+                      isFav={favProduct.find(
+                        (item: any) => item === product.id
+                      )}
+                      onAddFav={(e) => handleFav(e)}
                       onDelete={(e) => handleDelete(e)}
                     />
-                  );
-                }
+                  ))
+                );
               })}
 
             {cart.length === 0 && (

@@ -10,8 +10,9 @@ type PropTypes = {
   product: any;
   cart: any;
   totalPriceItem: number;
+  isFav: boolean;
   onChangeSize: (e: any, id: string) => void;
-  onChangeQuantity: (e: any, id: string) => void;
+  onChangeQuantity: (e: any, id: string, defaultValue: number) => void;
   onDelete: (id: string) => void;
   onAddFav: (id: string) => void;
 };
@@ -25,6 +26,7 @@ const ItemCart = (props: PropTypes) => {
     onAddFav,
     cart,
     totalPriceItem,
+    isFav,
   } = props;
 
   const [animationStart, setAnimationStart] = useState<any>({
@@ -32,6 +34,8 @@ const ItemCart = (props: PropTypes) => {
   });
 
   const [optionQty, setOptionQty] = useState<any>([]);
+  const [OutOfStock, setOutOfStock] = useState(false);
+  const [sizeOutOfStock, setSizeOutOfStock] = useState(false);
 
   useEffect(() => {
     if (animationStart.heart && animationStart.id) {
@@ -57,18 +61,38 @@ const ItemCart = (props: PropTypes) => {
       );
       const maxQty = selectedItem ? selectedItem.qty : 10;
 
-      const optionQty = [...Array(maxQty > 10 ? 10 : maxQty)].map(
-        (_, index) => {
-          return { value: index + 1, label: index + 1 };
-        }
-      );
-      setOptionQty(optionQty);
+      if (maxQty == 0) {
+        setSizeOutOfStock(true);
+      } else {
+        const optionQty = [...Array(maxQty > 10 ? 10 : maxQty)].map(
+          (_, index) => {
+            return { value: index + 1, label: index + 1 };
+          }
+        );
+        setOptionQty(optionQty);
+      }
+
+      // check all stock
+      const allstock = product.stock.every((item: any) => item.qty === 0);
+      if (allstock) {
+        setOutOfStock(true);
+      } else {
+        setOutOfStock(false);
+      }
     }
   }, [product, cart]);
 
   return (
     <>
-      <div className={styles.item} key={product.id}>
+      <p style={{ textAlign: "center", marginTop: "10px", color: "red" }}>
+        {OutOfStock ? "Out of Stock" : ""}
+      </p>
+      <div
+        className={`${styles.item} ${
+          OutOfStock ? styles["item--disabled"] : ""
+        }`}
+        key={product.id}
+      >
         <Image
           src={product.image}
           alt={product.name}
@@ -106,7 +130,9 @@ const ItemCart = (props: PropTypes) => {
                   label="Quantity"
                   option={optionQty}
                   defaultValue={cart.qty}
-                  onChange={(e: any) => onChangeQuantity(e, product.id)}
+                  onChange={(e: any) =>
+                    onChangeQuantity(e, product.id, cart.qty)
+                  }
                   className={styles.item__content__desc__detail__size__select}
                 />
               </div>
@@ -126,7 +152,11 @@ const ItemCart = (props: PropTypes) => {
                 onAddFav(product.id);
               }}
             >
-              <i className="bx bx-heart" id={`heart-${product.id}`}></i>
+              {isFav ? (
+                <i className="bx bxs-heart" id={`heart-${product.id}`}></i>
+              ) : (
+                <i className="bx bx-heart" id={`heart-${product.id}`}></i>
+              )}
             </Button>
             <Button
               type="button"

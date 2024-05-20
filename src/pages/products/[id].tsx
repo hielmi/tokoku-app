@@ -15,6 +15,7 @@ const DetailProductPage = ({ setToaster }: PropTypes) => {
   const { id } = useRouter().query;
   const [product, setProduct] = useState<Products | any>([]);
   const [carts, setCarts] = useState([]);
+  const [fav, setFav] = useState([]);
   const session: any = useSession();
 
   const getAllProducts = async (id: string) => {
@@ -22,9 +23,14 @@ const DetailProductPage = ({ setToaster }: PropTypes) => {
     setProduct(data.data);
   };
 
-  const getCarts = async (token: string) => {
-    const { data } = await userServices.getCarts(token);
+  const getCarts = async () => {
+    const { data } = await userServices.getCarts();
     setCarts(data.data);
+  };
+
+  const getFavProduct = async () => {
+    const { data } = await userServices.getFavProduct();
+    setFav(data.data);
   };
 
   useEffect(() => {
@@ -33,7 +39,8 @@ const DetailProductPage = ({ setToaster }: PropTypes) => {
 
   useEffect(() => {
     if (session.data?.accessToken) {
-      getCarts(session.data?.accessToken);
+      getCarts();
+      getFavProduct();
     }
   }, [session]);
 
@@ -45,6 +52,7 @@ const DetailProductPage = ({ setToaster }: PropTypes) => {
       <DetailProductView
         product={product}
         carts={carts}
+        fav={fav}
         productId={id as string}
         setToaster={setToaster}
       />

@@ -94,6 +94,7 @@ const ModalAddProduct = (props: PropTypes) => {
     const data = {
       name: form.name.value,
       category: form.category.value,
+      desc: form.desc.value,
       price: form.price.value,
       status: form.status.value,
       stock: StockCount,
@@ -147,6 +148,13 @@ const ModalAddProduct = (props: PropTypes) => {
             { label: "Released", value: "true" },
             { label: "Not Released", value: "false" },
           ]}
+        />
+
+        <Input
+          label="Description"
+          name="desc"
+          type="text"
+          placeholder="Insert Description of Product"
         />
         <label htmlFor="image">Upload product image</label>
         <div className={styles.form__upload}>

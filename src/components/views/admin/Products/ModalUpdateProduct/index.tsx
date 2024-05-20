@@ -101,6 +101,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
     const data = {
       name: form.name.value,
       category: form.category.value,
+      desc: form.desc.value,
       price: form.price.value,
       status: form.status.value,
       stock: StockCount,
@@ -162,6 +163,14 @@ const ModalUpdateProduct = (props: PropTypes) => {
             { label: "Not Released", value: "false" },
           ]}
           defaultValue={productUpdate.status}
+        />
+
+        <Input
+          label="Description"
+          name="desc"
+          type="text"
+          placeholder="Insert Description of Product"
+          defaultValue={productUpdate.desc}
         />
 
         <label htmlFor="image">Change product image</label>

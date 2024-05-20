@@ -14,7 +14,7 @@ const Chart = (props: PropTypes) => {
   const { setToaster } = props;
   const [products, setProducts] = useState<Products[] | any>({});
   const [userCart, setUserCart] = useState([{}]);
-
+  const [favorite, setFavorite] = useState([]);
   const session: any = useSession();
 
   const getAllProducts = async () => {
@@ -23,10 +23,15 @@ const Chart = (props: PropTypes) => {
     setProducts(data.data);
   };
 
-  const getCarts = async (token: string) => {
-    const { data } = await userServices.getCarts(token);
+  const getCarts = async () => {
+    const { data } = await userServices.getCarts();
 
     setUserCart(data.data);
+  };
+
+  const getFavProduct = async () => {
+    const { data } = await userServices.getFavProduct();
+    setFavorite(data.data);
   };
 
   useEffect(() => {
@@ -35,9 +40,8 @@ const Chart = (props: PropTypes) => {
 
   useEffect(() => {
     if (session.data?.accessToken) {
-      getCarts(session.data?.accessToken);
-    } else {
-      router.push(`/auth/login?callbackUrl=${router.asPath}`);
+      getCarts();
+      getFavProduct();
     }
   }, [session]);
 
@@ -48,6 +52,7 @@ const Chart = (props: PropTypes) => {
         setCart={setUserCart}
         products={products}
         cart={userCart}
+        favProduct={favorite}
         session={session}
       />
     </>

@@ -1,20 +1,21 @@
 import ProfileMemberViews from "@/components/views/member/Profile";
 import userServices from "@/services/user";
 import { User } from "@/type/user.type";
-import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Product } from "@/type/product.type";
+import { Products } from "@/type/product.type";
+import { useSession } from "next-auth/react";
 
 type PropTypes = {
   setToaster: Dispatch<SetStateAction<{}>>;
-  product?: Product[];
-  session: any;
+  product?: Products[];
   chart?: any;
 };
 
 const MemberProfilePage = (props: PropTypes) => {
-  const { setToaster, session } = props;
+  const { setToaster } = props;
   const [profile, setProfile] = useState<User | {}>({});
+
+  const session: any = useSession();
 
   useEffect(() => {
     if (session.data?.accessToken && Object.keys(profile).length === 0) {
@@ -22,9 +23,7 @@ const MemberProfilePage = (props: PropTypes) => {
         if (!session.data?.accessToken) {
           return;
         }
-        const { data } = await userServices.getProfile(
-          session.data?.accessToken
-        );
+        const { data } = await userServices.getProfile();
         setProfile(data.data);
       };
       getProfile();
