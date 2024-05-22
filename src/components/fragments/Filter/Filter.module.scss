@@ -1,0 +1,174 @@
+.filter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200vh;
+  z-index: 10;
+  background-color: #fafafa;
+  padding: 20px;
+  overflow: auto;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    p {
+      font-size: 20px;
+    }
+
+    button {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background-color: #000;
+      color: #fff;
+
+      i {
+        font-size: 30px;
+      }
+    }
+  }
+
+  &__main {
+    padding: 20px 0;
+
+    &__item {
+      &__title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      &__radioGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 25px;
+        label {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          input[type="radio"] {
+            display: none;
+          }
+        }
+      }
+
+      &__checkboxGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 25px;
+        label {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          input[type="checkbox"] {
+            display: none;
+          }
+        }
+      }
+    }
+
+    &__hr {
+      color: #e5e5e5;
+      margin-top: 40px;
+      margin-bottom: 30px;
+      height: 2px;
+      border-top: 1px solid #e5e5e5;
+    }
+  }
+
+  &__confirm {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    justify-content: space-between;
+    padding: 10px;
+
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+
+    &__btn {
+      &__clear {
+        background-color: #fff;
+        color: #000;
+        width: 48%;
+      }
+      &__apply {
+        background-color: #000;
+        color: #fff;
+        width: 48%;
+      }
+    }
+  }
+}
+
+.customRadioButton {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #000;
+  display: inline-block;
+  position: relative;
+}
+
+.customRadioButton::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+input[type="radio"]:checked + .customRadioButton::after {
+  display: block;
+}
+
+input[type="radio"]:focus + .customRadioButton {
+  outline: 2px solid #000;
+}
+
+input[type="radio"]:disabled + .customRadioButton {
+  opacity: 0.5;
+}
+
+.customCheckboxBox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #000;
+  display: inline-block;
+  position: relative;
+  border-radius: 4px;
+}
+
+.customCheckboxBox::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-color: #000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  border-radius: 4px;
+}
+
+input[type="checkbox"]:checked + .customCheckboxBox::after {
+  display: block;
+}
+
+input[type="checkbox"]:focus + .customCheckboxBox {
+  outline: 2px solid #000;
+}

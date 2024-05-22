@@ -3,7 +3,6 @@ import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import { Lato } from "next/font/google";
 import Navbar from "@/components/fragments/Navbar";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import Toaster from "@/components/ui/Toaster";
 import { useEffect, useState } from "react";
@@ -22,6 +21,8 @@ export default function App({
   const { pathname } = useRouter();
   const [toaster, setToaster] = useState<any>({});
 
+  const [navbarOpen, setNavbarOpen] = useState(true);
+
   useEffect(() => {
     if (Object.keys(toaster).length > 0) {
       setTimeout(() => {
@@ -31,17 +32,14 @@ export default function App({
   }, [toaster]);
   return (
     <SessionProvider session={session}>
-      <Head>
-        <link
-          href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-          rel="stylesheet"
-        />
-      </Head>
       <div className={lato.className}>
-        {!disableNavbar.includes(pathname.split("/")[1].toLowerCase()) && (
-          <Navbar />
-        )}
-        <Component {...pageProps} setToaster={setToaster} />
+        {!disableNavbar.includes(pathname.split("/")[1].toLowerCase()) &&
+          navbarOpen && <Navbar />}
+        <Component
+          {...pageProps}
+          setToaster={setToaster}
+          setNavbarOpen={setNavbarOpen}
+        />
         {Object.keys(toaster).length > 0 && (
           <Toaster
             variant={toaster?.variant}

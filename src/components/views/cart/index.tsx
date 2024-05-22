@@ -18,11 +18,13 @@ type PropTypes = {
     | any;
   session: any;
   favProduct: any;
+  setFavProduct: Dispatch<SetStateAction<never[]>>;
   setCart: Dispatch<SetStateAction<{}[]>>;
 };
 
 const CartViewPage = (props: PropTypes) => {
-  const { setToaster, cart, products, setCart, favProduct } = props;
+  const { setToaster, cart, products, setCart, favProduct, setFavProduct } =
+    props;
   const [subTotalPrice, setSubTotalPrice] = useState<number>(0);
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const [totalPrice, setTotalPrice] = useState<number>(0);
@@ -104,6 +106,7 @@ const CartViewPage = (props: PropTypes) => {
       ? favProduct.filter((item: any) => item !== id)
       : [...favProduct, id];
     await userServices.addFav({ favorite: updatedFavProduct });
+    setFavProduct(updatedFavProduct);
   };
 
   return (

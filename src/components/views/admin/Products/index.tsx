@@ -1,7 +1,7 @@
 import styles from "./Products.module.scss";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import Button from "@/components/ui/Button";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import { Products } from "@/type/product.type";
 import { convertIDR } from "@/utils/currency";
@@ -73,8 +73,8 @@ const ProductAdminViews = (props: PropTypes) => {
             </thead>
             <tbody>
               {dataProducts.map((product, index) => (
-                <>
-                  <tr key={product.id}>
+                <Fragment key={product.id}>
+                  <tr className={styles.product__table__row}>
                     <td rowSpan={product.stock.length}>{index + 1}</td>
                     <td rowSpan={product.stock.length}>
                       <Image
@@ -82,6 +82,8 @@ const ProductAdminViews = (props: PropTypes) => {
                         width={100}
                         height={100}
                         alt="image"
+                        placeholder="empty"
+                        priority={true}
                       />
                     </td>
                     <td rowSpan={product.stock.length}>{product.name}</td>
@@ -114,16 +116,16 @@ const ProductAdminViews = (props: PropTypes) => {
                     </td>
                   </tr>
                   {product.stock.map((stock, index) => (
-                    <>
+                    <Fragment key={stock.size}>
                       {index > 0 && (
-                        <tr key={stock.size}>
+                        <tr>
                           <td>{stock.size}</td>
                           <td>{stock.qty}</td>
                         </tr>
                       )}
-                    </>
+                    </Fragment>
                   ))}
-                </>
+                </Fragment>
               ))}
             </tbody>
           </table>

@@ -1,5 +1,17 @@
+.wrap {
+  display: flex;
+  justify-content: center;
+}
+
 .products {
   display: grid;
-  gap: 15px;
   grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 765px) {
+  .products {
+    display: grid;
+    gap: 0px;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

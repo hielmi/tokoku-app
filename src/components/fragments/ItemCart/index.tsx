@@ -29,30 +29,8 @@ const ItemCart = (props: PropTypes) => {
     isFav,
   } = props;
 
-  const [animationStart, setAnimationStart] = useState<any>({
-    heart: false,
-  });
-
   const [optionQty, setOptionQty] = useState<any>([]);
   const [OutOfStock, setOutOfStock] = useState(false);
-  const [sizeOutOfStock, setSizeOutOfStock] = useState(false);
-
-  useEffect(() => {
-    if (animationStart.heart && animationStart.id) {
-      const heart = document.querySelector(`#heart-${animationStart.id}`);
-      if (heart) {
-        const classToAdd = heart.classList.contains("bxs-heart")
-          ? "bx-heart"
-          : "bxs-heart";
-        heart.classList.add("bx-tada");
-        setTimeout(() => {
-          heart.classList.remove("bx-tada");
-          heart.classList.remove("bxs-heart", "bx-heart");
-          heart.classList.add(classToAdd);
-        }, 1000);
-      }
-    }
-  }, [animationStart]);
 
   useEffect(() => {
     if (product.stock.length > 0 && cart) {
@@ -61,16 +39,12 @@ const ItemCart = (props: PropTypes) => {
       );
       const maxQty = selectedItem ? selectedItem.qty : 10;
 
-      if (maxQty == 0) {
-        setSizeOutOfStock(true);
-      } else {
-        const optionQty = [...Array(maxQty > 10 ? 10 : maxQty)].map(
-          (_, index) => {
-            return { value: index + 1, label: index + 1 };
-          }
-        );
-        setOptionQty(optionQty);
-      }
+      const optionQty = [...Array(maxQty > 10 ? 10 : maxQty)].map(
+        (_, index) => {
+          return { value: index + 1, label: index + 1 };
+        }
+      );
+      setOptionQty(optionQty);
 
       // check all stock
       const allstock = product.stock.every((item: any) => item.qty === 0);
@@ -148,14 +122,13 @@ const ItemCart = (props: PropTypes) => {
               variant={"secondary"}
               className={styles.item__content__action__fav}
               onClick={() => {
-                setAnimationStart({ heart: true, id: product.id });
                 onAddFav(product.id);
               }}
             >
               {isFav ? (
-                <i className="bx bxs-heart" id={`heart-${product.id}`}></i>
+                <i className="bx bxs-heart"></i>
               ) : (
-                <i className="bx bx-heart" id={`heart-${product.id}`}></i>
+                <i className="bx bx-heart"></i>
               )}
             </Button>
             <Button

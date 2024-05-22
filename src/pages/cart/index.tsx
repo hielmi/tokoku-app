@@ -53,6 +53,7 @@ const Chart = (props: PropTypes) => {
         products={products}
         cart={userCart}
         favProduct={favorite}
+        setFavProduct={setFavorite}
         session={session}
       />
     </>

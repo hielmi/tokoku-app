@@ -1,8 +1,12 @@
 import ProductViewPage from "@/components/views/products";
 import productServices from "@/services/product";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const ProductsPage = () => {
+const ProductsPage = ({
+  setNavbarOpen,
+}: {
+  setNavbarOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
   const [products, setProducts] = useState([]);
 
   const getAllProducts = async () => {
@@ -16,7 +20,7 @@ const ProductsPage = () => {
 
   return (
     <>
-      <ProductViewPage product={products} />
+      <ProductViewPage product={products} setNavbarOpen={setNavbarOpen} />
     </>
   );
 };

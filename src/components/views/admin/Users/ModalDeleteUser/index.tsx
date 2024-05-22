@@ -21,10 +21,7 @@ const ModalDeleteUser = (props: PropTypes) => {
 
   const handleDelete = async () => {
     setIsLoading(true);
-    const result = await userServices.deleteUser(
-      deletedUser.id,
-      session.data?.accessToken
-    );
+    const result = await userServices.deleteUser(deletedUser.id);
     if (result.status === 200) {
       setDeletedUser({});
       const { data } = await userServices.getAllUsers();

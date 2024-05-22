@@ -2,10 +2,9 @@
   display: flex;
   max-width: 1920px;
   margin: auto;
-  padding-top: 40px;
-  &__main {
-    width: 100%;
-    padding: 10px;
+
+  &__filter {
+    display: none;
   }
 
   &__sidebar {
@@ -57,6 +56,95 @@
       margin-top: 20px;
       border: 2px solid #ddd;
       border-radius: 8px;
+    }
+  }
+
+  &__main {
+    width: 100%;
+    padding: 10px;
+
+    &__toolbar {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px;
+      align-items: center;
+
+      &__title {
+        display: none;
+      }
+
+      &__button {
+        padding: 10px 20px;
+        border-radius: 50px;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-weight: 600;
+
+        i {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 765px) {
+  .product {
+    flex-direction: column;
+    padding-top: 10px;
+
+    &__filter {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      padding: 20px;
+      position: relative;
+
+      i {
+        font-size: 25px;
+      }
+
+      &__button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+      }
+
+      &__dropdown {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    &__sidebar {
+      display: none;
+    }
+
+    &__main {
+      &__toolbar {
+        justify-content: space-between;
+        &__title {
+          display: block;
+          font-size: 20px;
+          font-weight: 700;
+          color: #707089;
+        }
+        &__button {
+          border: 1px solid #333;
+        }
+      }
     }
   }
 }

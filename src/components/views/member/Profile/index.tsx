@@ -39,7 +39,7 @@ const ProfileMemberViews = ({
       phone: form.phone.value,
     };
     try {
-      await userServices.updateProfile(data, session.data?.accessToken);
+      await userServices.updateProfile(data);
       setIsLoading("");
       setProfile({
         ...profile,
@@ -79,7 +79,7 @@ const ProfileMemberViews = ({
               image: result.url,
             };
             try {
-              await userServices.updateProfile(data, session.data?.accessToken);
+              await userServices.updateProfile(data);
               setIsLoading("");
               setProfile({
                 ...profile,
@@ -128,7 +128,7 @@ const ProfileMemberViews = ({
     };
     console.log(data.encryptedPassword);
     try {
-      await userServices.updateProfile(data, session.data?.accessToken);
+      await userServices.updateProfile(data);
       setIsLoading("");
       form.reset();
       setToaster({
