@@ -27,7 +27,7 @@ const DetailProductView = (props: PropTypes) => {
   const [selectedSize, setSelectedSize] = useState("");
   const [isFav, setisFav] = useState(false);
 
-  const { status, data }: any = useSession();
+  const { status }: any = useSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -74,7 +74,10 @@ const DetailProductView = (props: PropTypes) => {
             });
           }
         } catch (error) {
-          console.log(error);
+          setToaster({
+            varian: "error",
+            message: "Failed add to cart",
+          });
         }
       } else {
         alert("Please select size");
@@ -113,7 +116,10 @@ const DetailProductView = (props: PropTypes) => {
           }
         }
       } catch (error) {
-        console.log("somtehing error in fav");
+        setToaster({
+          varian: "error",
+          message: "Failed add to fav",
+        });
       }
     } else {
       router.push(`/auth/login?callbackUrl=${router.asPath}`);

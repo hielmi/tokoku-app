@@ -1,12 +1,10 @@
 import styles from "./ModalDeleteUser.module.scss";
 import Button from "@/components/ui/Button";
-import userServices from "@/services/user";
 import Modal from "@/components/ui/Modal";
 
 import { Dispatch, SetStateAction, useState } from "react";
 import productServices from "@/services/product";
 import { Products } from "@/type/product.type";
-import { useSession } from "next-auth/react";
 
 type PropTypes = {
   setModalDeleteProduct: Dispatch<SetStateAction<any>>;
@@ -26,23 +24,9 @@ const ModalDeleteProduct = (props: PropTypes) => {
   } = props;
   const [isLoading, setIsLoading] = useState(false);
 
-  const session: any = useSession();
-
-  const handleDeleteProduct = async (id: string) => {
-    const result: any = productServices.deleteProduct(
-      id,
-      session.data?.accessToken
-    );
-    if (result.status === 200) {
-    }
-  };
-
   const handleDelete = async () => {
     setIsLoading(true);
-    const result = await productServices.deleteProduct(
-      selectedProduct.id,
-      session.data?.accessToken
-    );
+    const result = await productServices.deleteProduct(selectedProduct.id);
     if (result.status === 200) {
       setSelectedProduct({});
       const { data } = await productServices.getAllProducts();

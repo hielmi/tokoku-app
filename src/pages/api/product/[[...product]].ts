@@ -151,7 +151,6 @@ export default async function handler(
           .json({ status: false, statusCode: 401, message: "Unauthorized" });
       }
     } catch (error) {
-      console.error("Error deleting product:", error);
       res.status(500).json({
         status: false,
         statusCode: 500,

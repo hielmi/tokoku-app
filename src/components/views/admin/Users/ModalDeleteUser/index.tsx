@@ -11,12 +11,10 @@ type PropTypes = {
   setDeletedUser: Dispatch<SetStateAction<any>>;
   setUserData: Dispatch<SetStateAction<User[]>>;
   setToaster: Dispatch<SetStateAction<{ varian: string; message: string }>>;
-  session: any;
 };
 
 const ModalDeleteUser = (props: PropTypes) => {
-  const { deletedUser, setDeletedUser, setUserData, setToaster, session } =
-    props;
+  const { deletedUser, setDeletedUser, setUserData, setToaster } = props;
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDelete = async () => {

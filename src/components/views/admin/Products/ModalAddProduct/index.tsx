@@ -33,7 +33,6 @@ const ModalAddProduct = (props: PropTypes) => {
 
   const uploadImage = async (id: string, form: any) => {
     const file = form.image.files[0];
-    console.log(file);
 
     if (file) {
       const newName = "main__" + id + "." + file.type.split("/")[1];
@@ -48,11 +47,7 @@ const ModalAddProduct = (props: PropTypes) => {
               image: newImageUrl?.url,
             };
 
-            const result = await productServices.updateProduct(
-              id,
-              data,
-              session.data?.accessToken
-            );
+            const result = await productServices.updateProduct(id, data);
 
             if (result.status === 200) {
               setToaster({
@@ -101,10 +96,7 @@ const ModalAddProduct = (props: PropTypes) => {
       image: uploadedImage ? uploadedImage : "",
     };
 
-    const result = await productServices.addProduct(
-      data,
-      session.data?.accessToken
-    );
+    const result = await productServices.addProduct(data);
 
     if (result.status === 200) {
       await uploadImage(result.data.data.id, form);

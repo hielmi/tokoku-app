@@ -55,11 +55,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
               image: newImageUrl?.url,
             };
 
-            const result = await productServices.updateProduct(
-              id,
-              data,
-              session.data?.accessToken
-            );
+            const result = await productServices.updateProduct(id, data);
 
             if (result.status === 200) {
               setToaster({
@@ -107,11 +103,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
       stock: StockCount,
       image: uploadedImage ? uploadedImage : productUpdate.image,
     };
-    const result = await productServices.updateProduct(
-      productUpdate.id,
-      data,
-      session.data?.accessToken
-    );
+    const result = await productServices.updateProduct(productUpdate.id, data);
     if (result.status === 200) {
       await uploadImage(productUpdate.id, form);
       setIsLoading(false);

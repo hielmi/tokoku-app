@@ -4,15 +4,18 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Image from "next/image";
 import { uploadFile } from "@/lib/firebase/service";
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import userServices from "@/services/user";
 import { User } from "@/type/user.type";
 
 type PropTypes = {
-  profile: User | any;
-  setProfile: Dispatch<SetStateAction<{}>>;
   setToaster: Dispatch<SetStateAction<{}>>;
-  session: any;
 };
 
 interface UploadResult {
@@ -21,14 +24,19 @@ interface UploadResult {
   url: string;
 }
 
-const ProfileMemberViews = ({
-  profile,
-  setProfile,
-  session,
-  setToaster,
-}: PropTypes) => {
+const ProfileMemberViews = ({ setToaster }: PropTypes) => {
   const [changeImage, setChangeImage] = useState<any>(undefined);
   const [isLoading, setIsLoading] = useState("");
+  const [profile, setProfile] = useState<User | any>({});
+
+  const getProfile = async () => {
+    const { data } = await userServices.getProfile();
+    setProfile(data.data);
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   const handleChangeProfile = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -116,6 +124,7 @@ const ProfileMemberViews = ({
       );
     }
   };
+
   const handleChangePassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading("password");
@@ -126,7 +135,6 @@ const ProfileMemberViews = ({
       oldPassword: form.oldPassword.value,
       encryptedPassword: profile.password,
     };
-    console.log(data.encryptedPassword);
     try {
       await userServices.updateProfile(data);
       setIsLoading("");

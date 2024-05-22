@@ -93,7 +93,6 @@ export default async function handler(
             }
           });
         } else {
-          console.log(err);
           res.status(401).json({
             status: false,
             statusCode: 401,

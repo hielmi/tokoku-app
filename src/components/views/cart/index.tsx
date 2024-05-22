@@ -63,7 +63,6 @@ const CartViewPage = (props: PropTypes) => {
         setCart(updatedCarts);
       }
     } catch (error) {
-      console.error(error);
       setToaster({
         variant: "danger",
         message: "Failed to update the cart",

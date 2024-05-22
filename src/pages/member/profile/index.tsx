@@ -13,30 +13,10 @@ type PropTypes = {
 
 const MemberProfilePage = (props: PropTypes) => {
   const { setToaster } = props;
-  const [profile, setProfile] = useState<User | {}>({});
 
-  const session: any = useSession();
-
-  useEffect(() => {
-    if (session.data?.accessToken && Object.keys(profile).length === 0) {
-      const getProfile = async () => {
-        if (!session.data?.accessToken) {
-          return;
-        }
-        const { data } = await userServices.getProfile();
-        setProfile(data.data);
-      };
-      getProfile();
-    }
-  }, [profile, session]);
   return (
     <>
-      <ProfileMemberViews
-        profile={profile}
-        setProfile={setProfile}
-        session={session}
-        setToaster={setToaster}
-      />
+      <ProfileMemberViews setToaster={setToaster} />
     </>
   );
 };
